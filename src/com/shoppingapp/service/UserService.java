@@ -12,12 +12,12 @@ import java.util.Stack;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-
-
 import com.shoppingapp.application.EcommerceShoppingApplication;
 import com.shoppingapp.model.Items;
 import com.shoppingapp.model.User;
 import com.shoppingapp.utility.ColorsUtility.Colors;
+
+
 
 public class UserService {
 	static long counter;
@@ -25,18 +25,21 @@ public class UserService {
 	 static HashMap<String, User> users = new HashMap<String, User>();
 	 static ArrayList<Items> items = new ArrayList<Items>();
 	 static Stack<Items> shoppingCart = new Stack<Items>();
+      static User newUser;
 	 
 	 static String username;
+	 static String name;
 	 
 	public static void Register(Scanner info) {
 		// TODO Auto-generated method stub
+		newUser= new User();
+		
 		info= new Scanner(System.in);
 
 		 Pattern emailRegex =Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
 		 Pattern passwordRegex = Pattern.compile("(?=.*[a-z])(?=.*[@#$%!^&])(?=.*[A-Z]).{8}");
 		 
-		 String name;
-		 String email;
+		
 		 String password;
 		 boolean validemail;
 		 boolean validpassword;
@@ -46,16 +49,16 @@ public class UserService {
 		// System.out.println(name);
 		 
 		 System.out.println("Email: ");
-		 email=info.next();
+		 username=info.next();
 		 		 
-		 Matcher emailMatcher=emailRegex.matcher(email);
+		 Matcher emailMatcher=emailRegex.matcher(username);
         validemail=emailMatcher.matches();
         
         while(validemail==false) {
        	 System.out.println("Invalid Email. Try again");
        	 System.out.println("Email");
-            email = info.next();
-            emailMatcher= emailRegex.matcher(email);
+            username = info.next();
+            emailMatcher= emailRegex.matcher(username);
             validemail= emailMatcher.matches();
         }
       
@@ -67,14 +70,17 @@ public class UserService {
         
         while(validpassword==false) {
        	 System.out.println("Invalid Password. Try again");
-       	 System.out.println("Email");
+       	 System.out.println("Password");
             password = info.next();
             passwordMatcher= passwordRegex.matcher(password);
             validpassword= passwordMatcher.matches();
         }
 		 		 
-        User user = new User(name,email, password);
-        users.put(user.getUname(), user);
+        newUser.setName(name);
+        User.setUserID(username);
+        newUser.setPassword(password);
+        User user = new User(name,password);
+        users.put(User.getUserID(), user);
         System.out.println(users);
         //database.addCustomer(customer);
         System.out.println("Registered!!");
@@ -86,18 +92,20 @@ public static String Login(Scanner info) {
 	 info = new Scanner(System.in);
 	    //String customerId;
 	    String password;
-	    System.out.println(Colors.ANSI_RESET.getColor()+"User Id: " + Colors.ANSI_CYAN.getColor());
+	    System.out.println(Colors.ANSI_RESET.getColor()+"Email: " + Colors.ANSI_CYAN.getColor());
 	    
 	        username = info.nextLine();
+	        
 	    
 	    System.out.println(Colors.ANSI_RESET.getColor()+"Password: "+Colors.ANSI_CYAN.getColor());
 	   
 	        password = info.nextLine();
 	        
 	        User found = users.get(username);
-	    
+	        
+	    System.out.println(username);
 	        while(!users.containsKey(username) || !password.equals(found.getPassword()) ) {
-	            System.out.println(Colors.ANSI_RED.getColor()+"Invalid CutomerId or Password. Try again!");
+	            System.out.println(Colors.ANSI_RED.getColor()+"Invalid Username or Password. Try again!");
 	            Login(info);
 	        }
 	            	 System.out.println(Colors.ANSI_PURPLE.getColor()+"Login Success"+ Colors.ANSI_RESET.getColor());
@@ -121,6 +129,7 @@ public static void BuyItem() {
 	totalPrice=newItems.getPrice();
 	items.add(newItems);
 	
+	
 	System.out.println("        Store Inventory    ");
 	System.out.println("+==============================+");
 	System.out.println(Colors.ANSI_BOLD.getColor()+"  Items   Item Code   Price     "+Colors.ANSI_RESET.getColor());
@@ -136,10 +145,11 @@ public static void BuyItem() {
 	counter= newItems.getQuantity();
 	purchase=buyItem.nextLine();
 	if (purchase.equals(newItems.getItemname())) {
-		newItems.setQuantity(--counter);
-		System.out.println(newItems.getQuantity());
+		//System.out.println(newItems.getQuantity());
 		System.out.println("How many would you like to buy");
 		quantitynum=buyItem.nextInt();
+		newItems.setQuantity(counter-quantitynum);
+		System.out.println(newItems.getQuantity());
 		totalPrice*= quantitynum;
 		System.out.println("totalPrice:$"+totalPrice);
 	}
@@ -161,8 +171,11 @@ public static void BuyItem() {
 			
 			BuyItem();
 		}
-		else {
-			System.out.println("Sending your invoice");
+		else if(option=='N'|| option=='n') {
+			
+		
+		 
+			System.out.println("Sending your invoice to "+ username);
 
 			System.out.println(Colors.ANSI_BOLD.getColor()+"Here is your reciept"+Colors.ANSI_RESET.getColor());
 			System.out.println(new Date());
@@ -170,25 +183,34 @@ public static void BuyItem() {
 			System.out.println("Total Price: $ "+totalPrice);
 
 			EcommerceShoppingApplication.Menu(buyItem);
+		 
 		}
-		
+		else {
+			System.out.println("Invalid option");
+			
+		}
 	}
 public static void ReplaceItem() {
+	
+	LocalDate today=LocalDate.now();
+	LocalDate invoiceDate;
 	
 	Scanner replaceItem =new Scanner(System.in);
 	String replace;
 		
 	System.out.println(Colors.ANSI_BOLD.getColor()+"Invoice"+Colors.ANSI_RESET.getColor());
-	System.out.println(LocalDate.now().plusDays(15));
+	invoiceDate=LocalDate.now().plusDays(15);
+	System.out.println("Customer Name: "+ name + "     Date: " + invoiceDate);
+	
 	
 	System.out.println(shoppingCart);
 	System.out.print("What item would you like to replace?");
 	replace=replaceItem.nextLine();
-	if(LocalDate.now() !=LocalDate.now().plusDays(15)){
+	if(today!=invoiceDate){
 		System.out.println("Cannot replace item at this time");
 		EcommerceShoppingApplication.Menu(replaceItem);
 	}
-	EcommerceShoppingApplication.Menu(replaceItem);
+	
 
 	
 	}

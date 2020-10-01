@@ -2,35 +2,34 @@ package com.shoppingapp.model;
 
 public class User {
 	
-	static public String Uname;
-		private String email;
+	static public String UserID;
+		private String name;
 		private String password;
 		
 		public User() {
-			this("N/A","N/A","N/A");
+			this("N/A","N/A");
 		}
 
-		public User(String uname, String email, String password) {
+		public User(String name, String password) {
 			super();
-			Uname = uname;
-			this.email = email;
+			this.name = name;
 			this.password = password;
 		}
 
-		public String getUname() {
-			return Uname;
+		public static String getUserID() {
+			return UserID;
 		}
 
-		public void setUname(String uname) {
-			Uname = uname;
+		public static void setUserID(String userID) {
+			UserID = userID;
 		}
 
-		public String getEmail() {
-			return email;
+		public String getName() {
+			return name;
 		}
 
-		public void setEmail(String email) {
-			this.email = email;
+		public void setName(String name) {
+			this.name = name;
 		}
 
 		public String getPassword() {
@@ -43,7 +42,8 @@ public class User {
 
 		@Override
 		public String toString() {
-			return "User [Uname=" + Uname + ", email=" + email + ", password=" + password + "]";
+			return "User [name=" + name + ", password=" + password + "]";
 		}
+		
 
-}
+		}

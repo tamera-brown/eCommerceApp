@@ -53,7 +53,7 @@ public class Items {
 
 	@Override
 	public String toString() {
-		return "Items [itemname=" + itemname + ", itemcode=" + itemcode + ", price=" + price + ", quantity=" + quantity
+		return "Items [itemname=" + itemname + ", itemcode=" + itemcode + ", price=" + price 
 				+ "]";
 	}
 	
