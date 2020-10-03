@@ -4,6 +4,7 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import com.shoppingapp.service.UserService;
+import com.shoppingapp.utility.ColorsUtility.Colors;
 
 public class EcommerceShoppingApplication {
 	private static String id;
