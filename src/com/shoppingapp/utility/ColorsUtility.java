@@ -1,7 +1,8 @@
 package com.shoppingapp.utility;
 
 public class ColorsUtility {
-
+	
+	
 	public enum Colors {
 		ANSI_RESET("\u001B[0m"),
 		ANSI_BLUE("\u001B[34m"),

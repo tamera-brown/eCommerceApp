@@ -56,5 +56,4 @@ public class Items {
 		return "Items [itemname=" + itemname + ", itemcode=" + itemcode + ", price=" + price 
 				+ "]";
 	}
-	
 }

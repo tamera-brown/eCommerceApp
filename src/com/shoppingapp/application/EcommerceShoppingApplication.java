@@ -3,13 +3,15 @@ package com.shoppingapp.application;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-import com.shoppingapp.service.UserService;
-import com.shoppingapp.utility.ColorsUtility.Colors;
+import com.shoppingapp.service.CustomerService;
 
-public class EcommerceShoppingApplication {
-	private static String id;
+
+
+public class eCommerceShoppingApplication {
+
 	public static void main(String[] argss) {
 		Scanner option=null;
+		CustomerService.addInventory();
 		Menu(option);
 	}
 
@@ -34,18 +36,18 @@ public class EcommerceShoppingApplication {
          choice = option.nextInt();
          switch (choice) {
 		case 1: 
-			UserService.Register(option);
+			CustomerService.Register(option);
 			Menu(option);
 			
 			break;
 		case 2:
-			id=UserService.Login(option);
-			break;
+			CustomerService.Login(option);
+    		break;
 		case 3:
-			UserService.BuyItem();
+			CustomerService.BuyItem();
 			break;
 		case 4:
-			UserService.ReplaceItem();
+			CustomerService.ReplaceItem();
 			break;
 		case 5:
 			System.out.println("Thank you for shopping with us! \n");
